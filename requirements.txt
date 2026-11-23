@@ -1,0 +1,6 @@
+torch
+piano_transcription_inference
+librosa
+pretty_midi
+music21
+numpy

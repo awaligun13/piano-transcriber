@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# audio and generated output are large and reproducible
+audio/
+output/
+*.wav
+*.mp3
+*.mid
+
+# model checkpoints
+*.pth
+
+# editor/OS
+.vscode/
+.idea/
+.DS_Store
