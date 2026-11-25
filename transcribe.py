@@ -25,6 +25,21 @@ def transcribe(audio_path: str, out_dir: str = "output", device: str = "cpu"):
     ]
     notes.sort(key = lambda n: (n.start, n.pitch))
 
-    #add pedal events
-    #return json data
-    
+    pedal = [
+        {"start": float(p["onset_time"]), "end": float(p["offset_time"])}
+        for p in result["est_pedal_events"]
+    ]
+
+    json_path = out / f"{stem}.raw.json"
+    save_notes(notes, json_path, meta = {"audio": audio_path, "pedal": pedal})
+    print(f"{len(notes)} notes, {len(pedal)} pedal events")
+    print(f"Wrote {midi_path} and {json_path}")
+    return json_path
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("audio")
+    ap.add_argument("--out", default="output")
+    ap.add_argument("--device", default="cpu")
+    args = ap.parse_args()
+    transcribe(args.audio, args.out, args.device)
