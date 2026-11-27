@@ -1,13 +1,12 @@
 #Note this will only work with piano audio!
 
-import argparse
 from pathlib import Path
 from piano_transcription_inference import PianoTranscription, sample_rate, load_audio
 from notes import Note, save_notes
 
 def transcribe(audio_path: str, out_dir: str = "output", device: str = "cpu"):
     out = Path(out_dir)
-    out.mkdir(exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
     stem = Path(audio_path).stem
 
     audio, _ = load_audio(audio_path, sr=sample_rate, mono=True)
@@ -35,11 +34,3 @@ def transcribe(audio_path: str, out_dir: str = "output", device: str = "cpu"):
     print(f"{len(notes)} notes, {len(pedal)} pedal events")
     print(f"Wrote {midi_path} and {json_path}")
     return json_path
-
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("audio")
-    ap.add_argument("--out", default="output")
-    ap.add_argument("--device", default="cpu")
-    args = ap.parse_args()
-    transcribe(args.audio, args.out, args.device)
